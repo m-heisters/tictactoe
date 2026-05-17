@@ -1,0 +1,6 @@
+# Binary
+tictactoe
+
+# Go build cache
+*.exe
+*.out
