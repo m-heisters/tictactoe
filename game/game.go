@@ -1,15 +1,10 @@
-package main
+package game
 
 import (
 	"errors"
 )
 
-type Game struct {
-	playerSymbol string
-	board        board
-}
-
-func NewGame() Game {
+func New() Game {
 	fields := make([]string, 9)
 	for i := range fields {
 		fields[i] = " "
@@ -24,6 +19,10 @@ func NewGame() Game {
 		board:        b,
 	}
 
+}
+
+func (g *Game) Run() {
+	runLoop(g)
 }
 
 func (g *Game) DrawSymbol(position int) error {

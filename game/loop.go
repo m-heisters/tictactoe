@@ -1,4 +1,4 @@
-package main
+package game
 
 import (
 	"bufio"
@@ -7,10 +7,6 @@ import (
 	"os"
 	"strconv"
 )
-
-type board struct {
-	fields []string
-}
 
 func printBoard(g *Game) {
 	board := g.board
@@ -37,7 +33,7 @@ func changePlayer(g *Game) error {
 
 }
 
-func startGameLoop(g *Game) {
+func runLoop(g *Game) {
 	fmt.Println("Starting Game")
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
@@ -64,7 +60,6 @@ func startGameLoop(g *Game) {
 			fmt.Println(err)
 			continue
 		}
-
 		changePlayer(g)
 	}
 }

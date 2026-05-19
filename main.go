@@ -1,7 +1,10 @@
 package main
 
-func main() {
-	g := NewGame()
+import (
+	"github.com/m-heisters/tictactoe/game"
+)
 
-	startGameLoop(&g)
+func main() {
+	g := game.New()
+	g.Run()
 }
