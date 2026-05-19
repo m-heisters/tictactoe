@@ -59,6 +59,12 @@ func startGameLoop(g *Game) {
 			continue
 		}
 
+		err = g.DrawSymbol(positionForSymbol)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
 		changePlayer(g)
 	}
 }
