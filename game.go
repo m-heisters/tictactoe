@@ -1,8 +1,8 @@
 package main
 
 type Game struct {
-	isPlayerOnesTurn bool
-	board            board
+	playerSymbol string
+	board        board
 }
 
 func NewGame() Game {
@@ -16,8 +16,8 @@ func NewGame() Game {
 	}
 
 	return Game{
-		isPlayerOnesTurn: true,
-		board:            b,
+		playerSymbol: "X",
+		board:        b,
 	}
 
 }

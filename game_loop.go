@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 )
@@ -10,7 +11,7 @@ type board struct {
 	fields []string
 }
 
-func printBoard(g Game) {
+func printBoard(g *Game) {
 	board := g.board
 
 	fmt.Printf(" %s | %s | %s \n", board.fields[0], board.fields[1], board.fields[2])
@@ -21,34 +22,34 @@ func printBoard(g Game) {
 
 }
 
-func promptInput(g Game) {
-	var playerSymbol string
-	if g.isPlayerOnesTurn {
-		playerSymbol = "X"
-	} else {
-		playerSymbol = "O"
+func changePlayer(g *Game) error {
+	switch g.playerSymbol {
+	case "X":
+		g.playerSymbol = "O"
+		return nil
+	case "O":
+		g.playerSymbol = "X"
+		return nil
+	default:
+		return errors.New("Unknown player symbol. Exiting game")
 	}
-
-	fmt.Printf("Player %v turn\n", playerSymbol)
 
 }
 
-func startGameLoop(g Game) {
+func startGameLoop(g *Game) {
 	fmt.Println("Starting Game")
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
-
 		printBoard(g)
-		promptInput(g)
+
+		fmt.Printf("Player %v turn\n", g.playerSymbol)
 
 		scanner.Scan()
-
 		input := scanner.Text()
 
 		if input == "exit" {
 			break
 		}
-		g.isPlayerOnesTurn = !g.isPlayerOnesTurn
-
+		changePlayer(g)
 	}
 }
