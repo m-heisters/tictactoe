@@ -11,11 +11,11 @@ import (
 func printBoard(g *Game) {
 	board := g.board
 
-	fmt.Printf(" %s | %s | %s \n", board.fields[0], board.fields[1], board.fields[2])
+	fmt.Printf(" %s | %s | %s \n", board.cells[0], board.cells[1], board.cells[2])
 	fmt.Println("-----------")
-	fmt.Printf(" %s | %s | %s \n", board.fields[3], board.fields[4], board.fields[5])
+	fmt.Printf(" %s | %s | %s \n", board.cells[3], board.cells[4], board.cells[5])
 	fmt.Println("-----------")
-	fmt.Printf(" %s | %s | %s \n", board.fields[6], board.fields[7], board.fields[8])
+	fmt.Printf(" %s | %s | %s \n", board.cells[6], board.cells[7], board.cells[8])
 
 }
 
@@ -49,7 +49,6 @@ func runLoop(g *Game) {
 		}
 
 		positionForSymbol, err := processInput(input)
-		fmt.Printf("Your input: %v\n", positionForSymbol)
 		if err != nil {
 			fmt.Println(err)
 			continue
@@ -60,8 +59,38 @@ func runLoop(g *Game) {
 			fmt.Println(err)
 			continue
 		}
+
+		isFinished := doesPlayerWin(g)
+		if isFinished {
+			fmt.Printf("Player %s wins!\n", g.playerSymbol)
+			break
+		}
+
 		changePlayer(g)
 	}
+}
+
+func doesPlayerWin(g *Game) bool {
+	winningTriple := []Triple{
+		{0, 1, 2},
+		{3, 4, 5},
+		{6, 7, 8},
+		{0, 3, 6},
+		{1, 4, 7},
+		{2, 5, 8},
+		{0, 4, 8},
+		{2, 4, 6},
+	}
+
+	for _, triple := range winningTriple {
+		cells := g.board.cells
+		// fmt.Printf("triple.A: %v, triple.B: %v, triple.C: %v\n", cells[triple.A], cells[triple.B], cells[triple.C])
+		if cells[triple.A] == g.playerSymbol && cells[triple.B] == g.playerSymbol && cells[triple.C] == g.playerSymbol {
+			return true
+		}
+	}
+
+	return false
 }
 
 func processInput(input string) (int, error) {

@@ -11,7 +11,7 @@ func New() Game {
 	}
 
 	b := board{
-		fields: fields,
+		cells: fields,
 	}
 
 	return Game{
@@ -26,9 +26,9 @@ func (g *Game) Run() {
 }
 
 func (g *Game) DrawSymbol(position int) error {
-	if g.board.fields[position-1] != " " {
+	if g.board.cells[position-1] != " " {
 		return errors.New("Position already taken. Choose another one.")
 	}
-	g.board.fields[position-1] = g.playerSymbol
+	g.board.cells[position-1] = g.playerSymbol
 	return nil
 }

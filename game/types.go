@@ -6,5 +6,9 @@ type Game struct {
 }
 
 type board struct {
-	fields []string
+	cells []string
+}
+
+type Triple struct {
+	A, B, C int
 }
