@@ -10,7 +10,7 @@ import (
 )
 
 func printBoard(g *Game) {
-	board := g.board
+	board := g.cells
 
 	fmt.Printf(" %s | %s | %s \n", board[0], board[1], board[2])
 	fmt.Println("-----------")
@@ -20,18 +20,12 @@ func printBoard(g *Game) {
 
 }
 
-func changePlayer(g *Game) error {
-	switch g.playerSymbol {
-	case "X":
+func switchPlayer(g *Game) {
+	if g.playerSymbol == "X" {
 		g.playerSymbol = "O"
-		return nil
-	case "O":
+	} else {
 		g.playerSymbol = "X"
-		return nil
-	default:
-		return errors.New("Unknown player symbol. Exiting game")
 	}
-
 }
 
 func runLoop(g *Game) {
@@ -55,7 +49,7 @@ func runLoop(g *Game) {
 			continue
 		}
 
-		err = g.DrawSymbol(positionForSymbol)
+		err = g.place(positionForSymbol)
 		if err != nil {
 			fmt.Println(err)
 			continue
@@ -71,19 +65,12 @@ func runLoop(g *Game) {
 			break
 		}
 
-		err = changePlayer(g)
-		if err != nil {
-			fmt.Println(err)
-		}
+		switchPlayer(g)
 	}
 }
 
 func isBoardFilled(g *Game) bool {
-	if !slices.Contains(g.board, " ") {
-		return true
-
-	}
-	return false
+	return !slices.Contains(g.cells, " ")
 }
 
 func hasPlayerWon(g *Game, playerSymbol string) bool {
@@ -97,7 +84,7 @@ func hasPlayerWon(g *Game, playerSymbol string) bool {
 		{0, 4, 8},
 		{2, 4, 6},
 	}
-	board := g.board
+	board := g.cells
 
 	for _, triple := range winningTriple {
 		if board[triple.A] == playerSymbol && board[triple.B] == playerSymbol && board[triple.C] == playerSymbol {

@@ -2,7 +2,7 @@ package game
 
 type Game struct {
 	playerSymbol string
-	board        []string
+	cells        []string
 }
 
 type triple struct {

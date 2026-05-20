@@ -10,10 +10,9 @@ func New() Game {
 		cells[i] = " "
 	}
 
-	b := cells
 	return Game{
 		playerSymbol: "X",
-		board:        b,
+		cells:        cells,
 	}
 
 }
@@ -22,10 +21,10 @@ func (g *Game) Run() {
 	runLoop(g)
 }
 
-func (g *Game) DrawSymbol(position int) error {
-	if g.board[position-1] != " " {
+func (g *Game) place(position int) error {
+	if g.cells[position-1] != " " {
 		return errors.New("Position already taken. Choose another one.")
 	}
-	g.board[position-1] = g.playerSymbol
+	g.cells[position-1] = g.playerSymbol
 	return nil
 }
