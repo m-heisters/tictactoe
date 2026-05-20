@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 )
 
@@ -60,9 +61,13 @@ func runLoop(g *Game) {
 			continue
 		}
 
-		isFinished := doesPlayerWin(g)
-		if isFinished {
+		if hasPlayerOne(g) {
 			fmt.Printf("Player %s wins!\n", g.playerSymbol)
+			break
+		}
+
+		if isBoardFilled(g) {
+			fmt.Println("It is a draw!")
 			break
 		}
 
@@ -70,7 +75,15 @@ func runLoop(g *Game) {
 	}
 }
 
-func doesPlayerWin(g *Game) bool {
+func isBoardFilled(g *Game) bool {
+	if !slices.Contains(g.board.cells, " ") {
+		return true
+
+	}
+	return false
+}
+
+func hasPlayerOne(g *Game) bool {
 	winningTriple := []Triple{
 		{0, 1, 2},
 		{3, 4, 5},
@@ -81,9 +94,9 @@ func doesPlayerWin(g *Game) bool {
 		{0, 4, 8},
 		{2, 4, 6},
 	}
+	cells := g.board.cells
 
 	for _, triple := range winningTriple {
-		cells := g.board.cells
 		// fmt.Printf("triple.A: %v, triple.B: %v, triple.C: %v\n", cells[triple.A], cells[triple.B], cells[triple.C])
 		if cells[triple.A] == g.playerSymbol && cells[triple.B] == g.playerSymbol && cells[triple.C] == g.playerSymbol {
 			return true
