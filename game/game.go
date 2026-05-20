@@ -5,12 +5,12 @@ import (
 )
 
 func New() Game {
-	board := make([]string, 9)
-	for i := range board {
-		board[i] = " "
+	cells := make([]string, 9)
+	for i := range cells {
+		cells[i] = " "
 	}
 
-	b := board
+	b := cells
 	return Game{
 		playerSymbol: "X",
 		board:        b,

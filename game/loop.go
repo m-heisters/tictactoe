@@ -61,7 +61,7 @@ func runLoop(g *Game) {
 			continue
 		}
 
-		if hasPlayerOne(g) {
+		if hasPlayerWon(g, g.playerSymbol) {
 			fmt.Printf("Player %s wins!\n", g.playerSymbol)
 			break
 		}
@@ -86,7 +86,7 @@ func isBoardFilled(g *Game) bool {
 	return false
 }
 
-func hasPlayerOne(g *Game) bool {
+func hasPlayerWon(g *Game, playerSymbol string) bool {
 	winningTriple := []triple{
 		{0, 1, 2},
 		{3, 4, 5},
@@ -100,7 +100,7 @@ func hasPlayerOne(g *Game) bool {
 	board := g.board
 
 	for _, triple := range winningTriple {
-		if board[triple.A] == g.playerSymbol && board[triple.B] == g.playerSymbol && board[triple.C] == g.playerSymbol {
+		if board[triple.A] == playerSymbol && board[triple.B] == playerSymbol && board[triple.C] == playerSymbol {
 			return true
 		}
 	}
