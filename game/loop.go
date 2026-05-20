@@ -12,11 +12,11 @@ import (
 func printBoard(g *Game) {
 	board := g.board
 
-	fmt.Printf(" %s | %s | %s \n", board.cells[0], board.cells[1], board.cells[2])
+	fmt.Printf(" %s | %s | %s \n", board[0], board[1], board[2])
 	fmt.Println("-----------")
-	fmt.Printf(" %s | %s | %s \n", board.cells[3], board.cells[4], board.cells[5])
+	fmt.Printf(" %s | %s | %s \n", board[3], board[4], board[5])
 	fmt.Println("-----------")
-	fmt.Printf(" %s | %s | %s \n", board.cells[6], board.cells[7], board.cells[8])
+	fmt.Printf(" %s | %s | %s \n", board[6], board[7], board[8])
 
 }
 
@@ -71,12 +71,15 @@ func runLoop(g *Game) {
 			break
 		}
 
-		changePlayer(g)
+		err = changePlayer(g)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
 func isBoardFilled(g *Game) bool {
-	if !slices.Contains(g.board.cells, " ") {
+	if !slices.Contains(g.board, " ") {
 		return true
 
 	}
@@ -84,7 +87,7 @@ func isBoardFilled(g *Game) bool {
 }
 
 func hasPlayerOne(g *Game) bool {
-	winningTriple := []Triple{
+	winningTriple := []triple{
 		{0, 1, 2},
 		{3, 4, 5},
 		{6, 7, 8},
@@ -94,11 +97,10 @@ func hasPlayerOne(g *Game) bool {
 		{0, 4, 8},
 		{2, 4, 6},
 	}
-	cells := g.board.cells
+	board := g.board
 
 	for _, triple := range winningTriple {
-		// fmt.Printf("triple.A: %v, triple.B: %v, triple.C: %v\n", cells[triple.A], cells[triple.B], cells[triple.C])
-		if cells[triple.A] == g.playerSymbol && cells[triple.B] == g.playerSymbol && cells[triple.C] == g.playerSymbol {
+		if board[triple.A] == g.playerSymbol && board[triple.B] == g.playerSymbol && board[triple.C] == g.playerSymbol {
 			return true
 		}
 	}
@@ -107,10 +109,10 @@ func hasPlayerOne(g *Game) bool {
 }
 
 func processInput(input string) (int, error) {
-	int, err := strconv.Atoi(input)
-	if err != nil || int < 1 || int > 9 {
+	integerInput, err := strconv.Atoi(input)
+	if err != nil || integerInput < 1 || integerInput > 9 {
 		return 0, errors.New("Please enter a number between 1 and 9")
 	}
-	return int, nil
+	return integerInput, nil
 
 }

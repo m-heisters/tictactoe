@@ -2,13 +2,9 @@ package game
 
 type Game struct {
 	playerSymbol string
-	board        board
+	board        []string
 }
 
-type board struct {
-	cells []string
-}
-
-type Triple struct {
+type triple struct {
 	A, B, C int
 }

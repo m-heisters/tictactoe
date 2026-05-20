@@ -5,15 +5,12 @@ import (
 )
 
 func New() Game {
-	fields := make([]string, 9)
-	for i := range fields {
-		fields[i] = " "
+	board := make([]string, 9)
+	for i := range board {
+		board[i] = " "
 	}
 
-	b := board{
-		cells: fields,
-	}
-
+	b := board
 	return Game{
 		playerSymbol: "X",
 		board:        b,
@@ -26,9 +23,9 @@ func (g *Game) Run() {
 }
 
 func (g *Game) DrawSymbol(position int) error {
-	if g.board.cells[position-1] != " " {
+	if g.board[position-1] != " " {
 		return errors.New("Position already taken. Choose another one.")
 	}
-	g.board.cells[position-1] = g.playerSymbol
+	g.board[position-1] = g.playerSymbol
 	return nil
 }
